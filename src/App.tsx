@@ -1,33 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { LanguageProvider } from './i18n';
-import MainLayout from './components/layout/MainLayout';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 // Pages
-import HomePage from './pages/HomePage';
-import PortfolioPage from './pages/PortfolioPage';
-import ServicesPage from './pages/ServicesPage';
-import AboutPage from './pages/AboutPage';
-import ProjectPage from './pages/ProjectPage';
-import ContactPage from './pages/ContactPage';
+import Home from './pages/Home';
+import Portfolio from './pages/Portfolio';
+import Services from './pages/Services';
+import About from './pages/About';
+import ProjectForm from './pages/ProjectForm';
+import Contact from './pages/Contact';
 
-// Styles
-import './styles/tailwind.css';
+// Components
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+// Context
+import { LanguageProvider } from './context/LanguageContext';
 
 function App() {
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: false,
+      mirror: true,
+    });
+  }, []);
+
   return (
     <LanguageProvider>
       <Router>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="portfolio" element={<PortfolioPage />} />
-            <Route path="services" element={<ServicesPage />} />
-            <Route path="about" element={<AboutPage />} />
-            <Route path="project" element={<ProjectPage />} />
-            <Route path="contact" element={<ContactPage />} />
-          </Route>
-        </Routes>
+        <div className="min-h-screen bg-beige text-dark-900">
+          <Header />
+          <main>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/project" element={<ProjectForm />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
       </Router>
     </LanguageProvider>
   );
